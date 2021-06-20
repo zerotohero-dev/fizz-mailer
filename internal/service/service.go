@@ -17,13 +17,19 @@ import (
 )
 
 type Service interface {
-	// TBD.
+	SendEmailVerificationEmail(email, name, emailVerificationToken string) error
+	SendEmailVerifiedEmail(email, name string) error
+	SendWelcomeEmail(email, name string) error
+	SendPasswordResetEmail(email, name, passwordResetToken string) error
+	SendPasswordResetConfirmationEmail(email, name string) error
 }
 
 type service struct {
 	env env.FizzEnv
 	ctx context.Context
 }
+
+
 
 func New(e env.FizzEnv, ctx context.Context) Service {
 	return &service{
