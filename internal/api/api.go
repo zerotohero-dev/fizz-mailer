@@ -25,6 +25,7 @@ import (
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	svc := service.New(e, context.Background())
 
+	// Sends email verification email.
 	app.Route(
 		router, http.NewServer(
 			endpoint.MakeSendEmailVerificationEmailEndpoint(svc),
@@ -35,6 +36,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 		"GET", "/v1/send/verification",
 	)
 
+	// Sends email verified email.
 	app.Route(
 		router, http.NewServer(
 			endpoint.MakeSendEmailVerifiedEmailEndpoint(svc),
@@ -45,6 +47,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 		"GET", "/v1/send/verified",
 	)
 
+	// Sends welcome email.
 	app.Route(
 		router, http.NewServer(
 			endpoint.MakeSendWelcomeEmailEndpoint(svc),
@@ -55,6 +58,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 		"GET", "/v1/send/welcome",
 	)
 
+	// Sends password reset email.
 	app.Route(
 		router, http.NewServer(
 			endpoint.MakeSendPasswordResetEmailEndpoint(svc),
@@ -65,6 +69,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 		"GET", "/v1/send/reset",
 	)
 
+	// Sends password reset confirmation email.
 	app.Route(
 		router, http.NewServer(
 			endpoint.MakeSendPasswordResetConfirmationEmailEndpoint(svc),
