@@ -29,8 +29,6 @@ type service struct {
 	ctx context.Context
 }
 
-
-
 func New(e env.FizzEnv, ctx context.Context) Service {
 	return &service{
 		env: e,
