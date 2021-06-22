@@ -19,6 +19,7 @@ import (
 	"github.com/zerotohero-dev/fizz-env/pkg/env"
 	"github.com/zerotohero.dev-/fizz-mailer/internal/endpoint"
 	"github.com/zerotohero.dev-/fizz-mailer/internal/service"
+	"github.com/zerotohero.dev-/fizz-mailer/internal/transport"
 )
 
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
