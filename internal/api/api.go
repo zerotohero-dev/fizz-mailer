@@ -17,6 +17,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/zerotohero-dev/fizz-app/pkg/app"
 	"github.com/zerotohero-dev/fizz-env/pkg/env"
+	"github.com/zerotohero.dev-/fizz-mailer/internal/endpoint"
 	"github.com/zerotohero.dev-/fizz-mailer/internal/service"
 )
 
