@@ -12,6 +12,6 @@ require (
 	github.com/zerotohero-dev/fizz-app v0.2.0
 	github.com/zerotohero-dev/fizz-entity v0.3.9 // indirect
 	github.com/zerotohero-dev/fizz-env v0.3.1
-	github.com/zerotohero-dev/fizz-logging v0.2.0 // indirect
+	github.com/zerotohero-dev/fizz-logging v0.2.0
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 )

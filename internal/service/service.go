@@ -17,11 +17,11 @@ import (
 )
 
 type Service interface {
-	SendEmailVerificationEmail(email, name, emailVerificationToken string) error
-	SendEmailVerifiedEmail(email, name string) error
-	SendWelcomeEmail(email, name string) error
-	SendPasswordResetEmail(email, name, passwordResetToken string) error
-	SendPasswordResetConfirmationEmail(email, name string) error
+	RelayEmailVerificationMessage(email, name, emailVerificationToken string) error
+	RelayEmailVerifiedMessage(email, name string) error
+	RelayWelcomeMessage(email, name string) error
+	RelayPasswordResetMessage(email, name, passwordResetToken string) error
+	RelayPasswordResetConfirmationMessage(email, name string) error
 }
 
 type service struct {

@@ -33,7 +33,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeSendEmailVerificationEmailRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/send/verification",
+		"POST", "/v1/relay/verification",
 	)
 
 	// Sends email verified email.
@@ -44,7 +44,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeSendEmailVerifiedEmailRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/send/verified",
+		"POST", "/v1/relay/verified",
 	)
 
 	// Sends welcome email.
@@ -55,7 +55,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeSendWelcomeEmailRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/send/welcome",
+		"POST", "/v1/relay/welcome",
 	)
 
 	// Sends password reset email.
@@ -66,7 +66,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeSendPasswordResetEmailRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/send/reset",
+		"POST", "/v1/relay/reset",
 	)
 
 	// Sends password reset confirmation email.
@@ -77,6 +77,6 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeSendPasswordResetConfirmationEmailRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/send/confirm",
+		"GET", "/v1/relay/confirm",
 	)
 }
