@@ -3,22 +3,26 @@ package postman
 import (
 	"context"
 	"fmt"
+	"github.com/mailgun/mailgun-go/v4"
 	"github.com/pkg/errors"
 	"github.com/zerotohero-dev/fizz-env/pkg/env"
+	"github.com/zerotohero-dev/fizz-mailer/internal/service/postman/template"
 	"time"
 )
 
+const from = "Volkan Özçelik <volkan@hermes.fizzbuzz.pro>"
+
 func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerificationToken string) error {
-	body := template.ActivateEmailBody(template.ActivateEmailParams{
+	body := template.EmailVerificationMessageBody(template.EmailVerificationMessageParams{
 		Email: email,
-		Alias: name,
+		Name:  name,
 		Token: emailVerificationToken,
 	})
 
-	domain := env.Env.MailgunDomain
-	apiKey := env.Env.MailgunApiKey
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[ZeroToHero] %s, please verify your account 🦄", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🦄", name)
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -27,11 +31,10 @@ func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerification
 	defer cancel()
 
 	_, _, err := mg.Send(ctx, m)
-
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("SendUserActivationEmail: problem sending activation email (%s)", email),
+			fmt.Sprintf("RelayEmailVerificationMessage: problem sending activation email (%s)", email),
 		)
 	}
 
@@ -39,14 +42,14 @@ func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerification
 }
 
 func RelayEmailVerifiedMessage(e env.FizzEnv, email, name string) error {
-	body := template.AccountVerifiedEmailBody(template.AccountVerifiedParams{
-		Alias: name,
+	body := template.EmailVerifiedMessageBody(template.EmailVerifiedMessageParams{
+		Name: name,
 	})
 
-	domain := env.Env.MailgunDomain
-	apiKey := env.Env.MailgunApiKey
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[ZeroToHero] %s, you have activated your account 🦄", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, you have verified your email 🦄", name)
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -59,7 +62,7 @@ func RelayEmailVerifiedMessage(e env.FizzEnv, email, name string) error {
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("SendUserVerifiedEmail: problem account verification confirmation email (%s)", email),
+			fmt.Sprintf("RelayEmailVerifiedMessage: problem account verification confirmation email (%s)", email),
 		)
 	}
 
@@ -67,15 +70,14 @@ func RelayEmailVerifiedMessage(e env.FizzEnv, email, name string) error {
 }
 
 func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
-	body := template.EnrolledEmailBody(template.EnrolledEmailParams{
-		Alias:  name,
-		Course: course,
+	body := template.WelcomeMessageBody(template.WelcomeMessageParams{
+		Name: name,
 	})
 
-	domain := env.Env.MailgunDomain
-	apiKey := env.Env.MailgunApiKey
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[ZeroToHero] %s, Welcome to %s 🦄", name, course)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🦄", name)
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -88,7 +90,7 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("SendUserWelcomeEmail: problem sending welcome email (%s)", email),
+			fmt.Sprintf("RelayWelcomeMessage: problem sending welcome email (%s)", email),
 		)
 	}
 
@@ -96,14 +98,14 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 }
 
 func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken string) error {
-	body := template.PasswordResetEmailBody(template.PasswordResetEmailParams{
-		Alias: name,
+	body := template.PasswordResetMessageBody(template.PasswordResetMessageParams{
+		Name:  name,
 		Email: email,
 		Token: passwordResetToken,
 	})
 
-	domain := env.Env.MailgunDomain
-	apiKey := env.Env.MailgunApiKey
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
 
 	subject := fmt.Sprintf("[ZeroToHero] Hi %s, here are your password reset instructions.", name)
 
@@ -118,7 +120,7 @@ func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken st
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("SendUserPasswordResetEmail: problem sending password reset email (%s)", email),
+			fmt.Sprintf("RelayPasswordResetMessage: problem sending password reset email (%s)", email),
 		)
 	}
 
@@ -126,12 +128,12 @@ func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken st
 }
 
 func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) error {
-	body := template.PasswordResetConfirmationEmailBody(template.PasswordResetConfirmationEmailParams{
-		Alias: name,
+	body := template.PasswordResetConfirmationMessageBody(template.PasswordResetConfirmationMessageParams{
+		Name: name,
 	})
 
-	domain := env.Env.MailgunDomain
-	apiKey := env.Env.MailgunApiKey
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
 
 	subject := fmt.Sprintf("[ZeroToHero] Hi %s, you've successfully reset your password.", name)
 
@@ -146,7 +148,7 @@ func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) er
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("SendUserWelcomeEmail: problem sending passwrod reset confirmation email (%s)", email),
+			fmt.Sprintf("RelayPasswordResetConfirmationMessage: problem sending passwrod reset confirmation email (%s)", email),
 		)
 	}
 

@@ -3,9 +3,12 @@ module github.com/zerotohero-dev/fizz-mailer
 go 1.16
 
 require (
+	github.com/go-chi/chi v4.0.0+incompatible // indirect
 	github.com/go-kit/kit v0.10.0
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/mux v1.8.0
+	github.com/mailgun/mailgun-go/v4 v4.5.2 // indirect
+	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/rs/cors v1.8.0 // indirect
 	github.com/shirou/gopsutil v3.21.6+incompatible // indirect

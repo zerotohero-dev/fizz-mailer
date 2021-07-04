@@ -22,11 +22,16 @@ type Service interface {
 	RelayWelcomeMessage(email, name string) error
 	RelayPasswordResetMessage(email, name, passwordResetToken string) error
 	RelayPasswordResetConfirmationMessage(email, name string) error
+	RelaySubscribedMessage(email, name string) error
 }
 
 type service struct {
 	env env.FizzEnv
 	ctx context.Context
+}
+
+func (s service) RelaySubscribedMessage(email, name string) error {
+	panic("implement me")
 }
 
 func New(e env.FizzEnv, ctx context.Context) Service {
