@@ -13,11 +13,21 @@ package transport
 
 import (
 	"context"
+	"encoding/json"
+	"github.com/zerotohero-dev/fizz-entity/pkg/reqres"
+	"github.com/zerotohero-dev/fizz-logging/pkg/log"
 	"net/http"
 )
 
-func DecodeSendEmailVerificationEmailRequest(
+func DecodeRelayEmailVerificationMessageRequest(
 	_ context.Context, r *http.Request) (interface{}, error) {
-	panic("Implement me!")
-	return nil, nil
+	var request reqres.RelayEmailVerificationMessageRequest
+
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+		log.Err("DecodeRelayEmailVerificationMessageRequest: error decoding: %s", err.Error())
+
+		request.Err = "DecodeRelayEmailVerificationMessageRequest: Problem decoding JSON."
+	}
+
+	return request, nil
 }

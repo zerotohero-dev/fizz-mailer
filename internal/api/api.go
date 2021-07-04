@@ -17,9 +17,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/zerotohero-dev/fizz-app/pkg/app"
 	"github.com/zerotohero-dev/fizz-env/pkg/env"
-	"github.com/zerotohero.dev-/fizz-mailer/internal/endpoint"
-	"github.com/zerotohero.dev-/fizz-mailer/internal/service"
-	"github.com/zerotohero.dev-/fizz-mailer/internal/transport"
+	"github.com/zerotohero-dev/fizz-mailer/internal/endpoint"
+	"github.com/zerotohero-dev/fizz-mailer/internal/service"
+	"github.com/zerotohero-dev/fizz-mailer/internal/transport"
 )
 
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
@@ -28,9 +28,9 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	// Sends email verification email.
 	app.Route(
 		router, http.NewServer(
-			endpoint.MakeSendEmailVerificationEmailEndpoint(svc),
+			endpoint.MakeRelayEmailVerificationMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
-				transport.DecodeSendEmailVerificationEmailRequest),
+				transport.DecodeRelayEmailVerificationMessageRequest),
 			app.EncodeResponse,
 		),
 		"POST", "/v1/relay/verification",
@@ -39,9 +39,9 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	// Sends email verified email.
 	app.Route(
 		router, http.NewServer(
-			endpoint.MakeSendEmailVerifiedEmailEndpoint(svc),
+			endpoint.MakeRelayEmailVerifiedMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
-				transport.DecodeSendEmailVerifiedEmailRequest),
+				transport.DecodeRelayEmailVerifiedMessageRequest),
 			app.EncodeResponse,
 		),
 		"POST", "/v1/relay/verified",
@@ -50,9 +50,9 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	// Sends welcome email.
 	app.Route(
 		router, http.NewServer(
-			endpoint.MakeSendWelcomeEmailEndpoint(svc),
+			endpoint.MakeRelayWelcomeMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
-				transport.DecodeSendWelcomeEmailRequest),
+				transport.DecodeRelayWelcomeMessageRequest),
 			app.EncodeResponse,
 		),
 		"POST", "/v1/relay/welcome",
@@ -61,9 +61,9 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	// Sends password reset email.
 	app.Route(
 		router, http.NewServer(
-			endpoint.MakeSendPasswordResetEmailEndpoint(svc),
+			endpoint.MakeRelayPasswordResetMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
-				transport.DecodeSendPasswordResetEmailRequest),
+				transport.DecodeRelayPasswordResetMessageRequest),
 			app.EncodeResponse,
 		),
 		"POST", "/v1/relay/reset",
@@ -72,9 +72,9 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	// Sends password reset confirmation email.
 	app.Route(
 		router, http.NewServer(
-			endpoint.MakeSendPasswordResetConfirmationEmailEndpoint(svc),
+			endpoint.MakeRelayPasswordResetConfirmationMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
-				transport.DecodeSendPasswordResetConfirmationEmailRequest),
+				transport.DecodeRelayPasswordResetConfirmationMessageRequest),
 			app.EncodeResponse,
 		),
 		"GET", "/v1/relay/confirm",

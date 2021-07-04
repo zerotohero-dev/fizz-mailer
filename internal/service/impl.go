@@ -11,10 +11,7 @@
 
 package service
 
-import (
-	"github.com/zerotohero-dev/fizz-env/pkg/env"
-	"github.com/zerotohero-dev/fizz-logging/pkg/log"
-)
+import "github.com/zerotohero-dev/fizz-mailer/internal/service/postman"
 
 // For development environments, this service logs the email body to
 // the standard output instead of relaying the email. This is by design,
@@ -25,51 +22,21 @@ import (
 // to have a more production-like behavior.
 
 func (s service) RelayEmailVerificationMessage(email, name, emailVerificationToken string) error {
-	if s.env.Deployment.Type == env.Development {
-		log.Info("mailer:dev:RelayEmailVerificationMessage")
-
-		return nil
-	}
-
-	return nil
+	return postman.RelayEmailVerificationMessage(s.env, email, name, emailVerificationToken)
 }
 
 func (s service) RelayEmailVerifiedMessage(email, name string) error {
-	if s.env.Deployment.Type == env.Development {
-		log.Info("mailer:dev:RelayEmailVerifiedMessage")
-
-		return nil
-	}
-
-	return nil
+	return postman.RelayEmailVerifiedMessage(s.env, email, name)
 }
 
 func (s service) RelayWelcomeMessage(email, name string) error {
-	if s.env.Deployment.Type == env.Development {
-		log.Info("mailer:dev:RelayWelcomeMessage")
-
-		return nil
-	}
-
-	return nil
+	return postman.RelayWelcomeMessage(s.env, email, name)
 }
 
 func (s service) RelayPasswordResetMessage(email, name, passwordResetToken string) error {
-	if s.env.Deployment.Type == env.Development {
-		log.Info("mailer:dev:RelayPasswordResetMessage")
-
-		return nil
-	}
-
-	return nil
+	return postman.RelayPasswordResetMessage(s.env, email, name, passwordResetToken)
 }
 
 func (s service) RelayPasswordResetConfirmationMessage(email, name string) error {
-	if s.env.Deployment.Type == env.Development {
-		log.Info("mailer:dev:RelayPasswordResetConfirmationMessage")
-
-		return nil
-	}
-
-	return nil
+	return postman.RelayPasswordResetConfirmationMessage(s.env, email, name)
 }
