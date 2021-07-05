@@ -6,6 +6,7 @@ import (
 	"github.com/mailgun/mailgun-go/v4"
 	"github.com/pkg/errors"
 	"github.com/zerotohero-dev/fizz-env/pkg/env"
+	"github.com/zerotohero-dev/fizz-logging/pkg/log"
 	"github.com/zerotohero-dev/fizz-mailer/internal/service/postman/template"
 	"time"
 )
@@ -23,6 +24,13 @@ func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerification
 	apiKey := e.Mailer.MailgunApiKey
 
 	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🦄", name)
+
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -51,6 +59,13 @@ func RelayEmailVerifiedMessage(e env.FizzEnv, email, name string) error {
 
 	subject := fmt.Sprintf("[FizzBuzz Pro] %s, you have verified your email 🦄", name)
 
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
+
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
 
@@ -78,6 +93,13 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 	apiKey := e.Mailer.MailgunApiKey
 
 	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🦄", name)
+
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -109,6 +131,13 @@ func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken st
 
 	subject := fmt.Sprintf("[ZeroToHero] Hi %s, here are your password reset instructions.", name)
 
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
+
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
 
@@ -137,6 +166,13 @@ func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) er
 
 	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, you've successfully reset your password.", name)
 
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
+
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
 
@@ -164,6 +200,13 @@ func RelaySubscribedMessage(e env.FizzEnv, email, name string) error {
 	apiKey := e.Mailer.MailgunApiKey
 
 	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, welcome to the jungle.", name)
+
+	if e.Deployment.Type == env.Development {
+		log.Info("mailer: %s", subject)
+		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", body)
+		return nil
+	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
