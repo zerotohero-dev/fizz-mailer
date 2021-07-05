@@ -11,14 +11,17 @@
 
 package template
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 const emailVerifiedMessageTpl = `
 Hello %s,
 
 You have successfully verified your email. You are almost there.
 
-🦄 What to Do Next
+🐢 What to Do Next
 
 To finish you account creation tap the link below and fill in the form
 that comes up: 
@@ -32,13 +35,22 @@ Volkan.
 %s`
 
 type EmailVerifiedMessageParams struct {
-	Name      string
-	SignUpUrl string
+	Name                     string
+	Email                    string
+	EmailVerificationBaseUrl string
+	Token                    string
 }
 
 func EmailVerifiedMessageBody(p EmailVerifiedMessageParams) string {
 	name := p.Name
-	url := p.SignUpUrl
+	email := p.Email
+	token := url.QueryEscape(p.Token)
+	signupUrl := fmt.Sprintf(
+		"%s?email=%s&token=%s",
+		p.EmailVerificationBaseUrl,
+		email,
+		token,
+	)
 
-	return fmt.Sprintf(emailVerifiedMessageTpl, name, url, footerTpl)
+	return fmt.Sprintf(emailVerifiedMessageTpl, name, signupUrl, footerTpl)
 }

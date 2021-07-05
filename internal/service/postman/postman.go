@@ -15,15 +15,16 @@ const from = "Volkan Özçelik <volkan@hermes.fizzbuzz.pro>"
 
 func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerificationToken string) error {
 	body := template.EmailVerificationMessageBody(template.EmailVerificationMessageParams{
-		Email: email,
-		Name:  name,
-		Token: emailVerificationToken,
+		Email:                    email,
+		Name:                     name,
+		EmailVerificationBaseUrl: e.Mailer.EmailVerificationBaseUrl,
+		Token:                    emailVerificationToken,
 	})
 
 	domain := e.Mailer.MailgunDomain
 	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🦄", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🐢", name)
 
 	if e.Deployment.Type == env.Development {
 		log.Info("mailer: %s", subject)
@@ -49,15 +50,17 @@ func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerification
 	return nil
 }
 
-func RelayEmailVerifiedMessage(e env.FizzEnv, email, name string) error {
+func RelayEmailVerifiedMessage(e env.FizzEnv, email, token, name string) error {
 	body := template.EmailVerifiedMessageBody(template.EmailVerifiedMessageParams{
-		Name: name,
+		Name:                     name,
+		EmailVerificationBaseUrl: e.Mailer.EmailVerificationBaseUrl,
+		Token:                    token,
 	})
 
 	domain := e.Mailer.MailgunDomain
 	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, you have verified your email 🦄", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, you have verified your email 🐢", name)
 
 	if e.Deployment.Type == env.Development {
 		log.Info("mailer: %s", subject)
@@ -92,7 +95,7 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 	domain := e.Mailer.MailgunDomain
 	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🦄", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🐢", name)
 
 	if e.Deployment.Type == env.Development {
 		log.Info("mailer: %s", subject)
@@ -121,9 +124,10 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 
 func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken string) error {
 	body := template.PasswordResetMessageBody(template.PasswordResetMessageParams{
-		Name:  name,
-		Email: email,
-		Token: passwordResetToken,
+		Name:                 name,
+		Email:                email,
+		Token:                passwordResetToken,
+		PasswordResetBaseUrl: e.Mailer.PasswordResetBaseUrl,
 	})
 
 	domain := e.Mailer.MailgunDomain

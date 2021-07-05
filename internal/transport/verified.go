@@ -21,7 +21,7 @@ import (
 
 func DecodeRelayEmailVerifiedMessageRequest(
 	_ context.Context, r *http.Request) (interface{}, error) {
-	var request reqres.RelayEmailVerifiedMessageResponse
+	var request reqres.RelayEmailVerifiedMessageRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		log.Err("DecodeRelayEmailVerifiedMessageRequest: error decoding: %s", err.Error())

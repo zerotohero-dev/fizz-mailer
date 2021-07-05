@@ -15,15 +15,15 @@ import "fmt"
 
 const enrolledTpl = `Hi %s,
 
+Welcome 🎉 🐢
 
-Welcome 🎉 🦄
 I just wanted to let you know that you have successfully subscribed to
 FizzBuzz Pro.
 
-You can access to your interview questions, answears, tips, tricks,
+You can access to your interview questions, answers, tips, tricks,
 study guides and more from https://fizzbuzz.pro/ .
 
-🦄 Can I Ask You a Favor?
+🐢 Can I Ask You a Favor?
 
 I spend a lot of time an energy to make https://fizzbuzz.pro/ unique.
 
@@ -45,7 +45,7 @@ I am thrilled to create a quality resource, and I appreciate your help.
 
 You can send your emails to me@volkan.io ✉️.
 
-🦄 Ask Me Anything
+🐢 Ask Me Anything
 
 You can ask me programming-related, or not.
 

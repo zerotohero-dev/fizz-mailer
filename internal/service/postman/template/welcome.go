@@ -15,17 +15,17 @@ import "fmt"
 
 const welcomeTpl = `Hello %s,
 
-🦄 Welcome 🎉 🦄
+🐢 Welcome 🎉 🐢
 
 You have successfully created your FizzBuzz Pro account.
 
-🦄 What to Do Next
+🐢 What to Do Next
 
 👉 Log in to https://fizzbuzz.pro/ using the email and password you’ve signed up with.
 👉 Tap the “Subscribe” button on your learning dashboard.
 👉 Always be learning.
 
-🦄 🦄 🦄
+🐢 🐢 🐢
 
 That’s all about it for now 🙂.
 

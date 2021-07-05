@@ -44,15 +44,23 @@ func MakeRelayEmailVerifiedMessageEndpoint(svc service.Service) endpoint.Endpoin
 			}, nil
 		}
 
-		fullName := sanitization.SanitizeName(req.Name)
-		if fullName == "" {
+		name := sanitization.SanitizeName(req.Name)
+		if name == "" {
 			return reqres.RelayEmailVerifiedMessageResponse{
 				Success: false,
 				Err:     "Error: missing full name",
 			}, nil
 		}
 
-		err := svc.RelayEmailVerifiedMessage(email, fullName)
+		token := sanitization.SanitizeToken(req.Token)
+		if token == "" {
+			return reqres.RelayEmailVerifiedMessageResponse{
+				Success: false,
+				Err:     "Error: missing token",
+			}, nil
+		}
+
+		err := svc.RelayEmailVerifiedMessage(email, token, name)
 		if err != nil {
 			return reqres.RelayEmailVerifiedMessageResponse{
 				Success: false,

@@ -34,10 +34,10 @@ Volkan.
 %s`
 
 type PasswordResetMessageParams struct {
-	Name             string
-	Email            string
-	Token            string
-	PasswordResetUrl string
+	Name                 string
+	Email                string
+	Token                string
+	PasswordResetBaseUrl string
 }
 
 func PasswordResetMessageBody(p PasswordResetMessageParams) string {
@@ -45,7 +45,7 @@ func PasswordResetMessageBody(p PasswordResetMessageParams) string {
 	email := url.QueryEscape(p.Email)
 	token := url.QueryEscape(p.Token)
 
-	baseUrl := p.PasswordResetUrl
+	baseUrl := p.PasswordResetBaseUrl
 	passwordResetUrl := fmt.Sprintf(
 		"%s?email=%s&token=%s",
 		baseUrl,

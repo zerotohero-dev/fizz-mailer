@@ -77,7 +77,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelayPasswordResetConfirmationMessageRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/relay/confirm",
+		"POST", "/v1/relay/confirm",
 	)
 
 	// Sends subscription confirmation.
@@ -88,6 +88,6 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelaySubscribedMessageRequest),
 			app.EncodeResponse,
 		),
-		"GET", "/v1/relay/subscribed",
+		"POST", "/v1/relay/subscribed",
 	)
 }

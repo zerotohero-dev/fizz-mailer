@@ -32,10 +32,10 @@ Volkan.
 %s`
 
 type EmailVerificationMessageParams struct {
-	Name       string
-	Email      string
-	Token      string
-	IdmBaseUrl string
+	Name                     string
+	Email                    string
+	Token                    string
+	EmailVerificationBaseUrl string
 }
 
 func EmailVerificationMessageBody(p EmailVerificationMessageParams) string {
@@ -43,8 +43,8 @@ func EmailVerificationMessageBody(p EmailVerificationMessageParams) string {
 	email := url.QueryEscape(p.Email)
 	token := url.QueryEscape(p.Token)
 	verificationUrl := fmt.Sprintf(
-		"%s/verify?email=%s&token=%s",
-		p.IdmBaseUrl,
+		"%s?email=%s&token=%s",
+		p.EmailVerificationBaseUrl,
 		email,
 		token,
 	)

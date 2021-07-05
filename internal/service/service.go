@@ -18,7 +18,7 @@ import (
 
 type Service interface {
 	RelayEmailVerificationMessage(email, name, emailVerificationToken string) error
-	RelayEmailVerifiedMessage(email, name string) error
+	RelayEmailVerifiedMessage(email, token, name string) error
 	RelayWelcomeMessage(email, name string) error
 	RelayPasswordResetMessage(email, name, passwordResetToken string) error
 	RelayPasswordResetConfirmationMessage(email, name string) error
