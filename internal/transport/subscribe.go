@@ -19,14 +19,14 @@ import (
 	"net/http"
 )
 
-func DecodeRelayPasswordResetConfirmationMessageRequest(
+func DecodeRelaySubscribedMessageRequest(
 	_ context.Context, r *http.Request) (interface{}, error) {
-	var request reqres.RelayPasswordResetConfirmationMessageRequest
+	var request reqres.RelaySubscribedMessageRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		log.Err("DecodeRelayPasswordResetConfirmationMessageRequest: error decoding: %s", err.Error())
+		log.Err("DecodeRelaySubscribedMessageRequest: error decoding: %s", err.Error())
 
-		request.Err = "DecodeRelayPasswordResetConfirmationMessageRequest: Problem decoding JSON."
+		request.Err = "DecodeRelaySubscribedMessageRequest: Problem decoding JSON."
 	}
 
 	return request, nil

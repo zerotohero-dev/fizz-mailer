@@ -40,3 +40,7 @@ func (s service) RelayPasswordResetMessage(email, name, passwordResetToken strin
 func (s service) RelayPasswordResetConfirmationMessage(email, name string) error {
 	return postman.RelayPasswordResetConfirmationMessage(s.env, email, name)
 }
+
+func (s service) RelaySubscribedMessage(email, name string) error {
+	return postman.RelaySubscribedMessage(s.env, email, name)
+}

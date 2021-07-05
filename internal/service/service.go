@@ -30,10 +30,6 @@ type service struct {
 	ctx context.Context
 }
 
-func (s service) RelaySubscribedMessage(email, name string) error {
-	panic("implement me")
-}
-
 func New(e env.FizzEnv, ctx context.Context) Service {
 	return &service{
 		env: e,

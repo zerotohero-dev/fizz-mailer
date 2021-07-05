@@ -57,11 +57,11 @@ May the source be with you.
 Volkan.
 %s`
 
-type EnrolledEmailParams struct {
+type SubscribedMessageParams struct {
 	Name string
 }
 
-func SubscribedMessageBody(p EnrolledEmailParams) string {
+func SubscribedMessageBody(p SubscribedMessageParams) string {
 	name := p.Name
 
 	return fmt.Sprintf(enrolledTpl, name, footerTpl)

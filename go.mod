@@ -4,16 +4,17 @@ go 1.16
 
 require (
 	github.com/go-chi/chi v4.0.0+incompatible // indirect
-	github.com/go-kit/kit v0.10.0
+	github.com/go-kit/kit v0.11.0
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/mux v1.8.0
-	github.com/mailgun/mailgun-go/v4 v4.5.2 // indirect
+	github.com/mailgun/mailgun-go/v4 v4.5.2
 	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.8.0 // indirect
 	github.com/shirou/gopsutil v3.21.6+incompatible // indirect
 	github.com/zerotohero-dev/fizz-app v0.2.0
-	github.com/zerotohero-dev/fizz-entity v0.4.5
+	github.com/zerotohero-dev/fizz-entity v0.4.6
 	github.com/zerotohero-dev/fizz-env v0.3.1
 	github.com/zerotohero-dev/fizz-logging v0.2.0
 	github.com/zerotohero-dev/fizz-validation v0.1.0

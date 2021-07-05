@@ -135,7 +135,7 @@ func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) er
 	domain := e.Mailer.MailgunDomain
 	apiKey := e.Mailer.MailgunApiKey
 
-	subject := fmt.Sprintf("[ZeroToHero] Hi %s, you've successfully reset your password.", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, you've successfully reset your password.", name)
 
 	mg := mailgun.NewMailgun(domain, apiKey)
 	m := mg.NewMessage(from, subject, body, email)
@@ -149,6 +149,34 @@ func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) er
 		return errors.Wrap(
 			err,
 			fmt.Sprintf("RelayPasswordResetConfirmationMessage: problem sending passwrod reset confirmation email (%s)", email),
+		)
+	}
+
+	return nil
+}
+
+func RelaySubscribedMessage(e env.FizzEnv, email, name string) error {
+	body := template.SubscribedMessageBody(template.SubscribedMessageParams{
+		Name: name,
+	})
+
+	domain := e.Mailer.MailgunDomain
+	apiKey := e.Mailer.MailgunApiKey
+
+	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, welcome to the jungle.", name)
+
+	mg := mailgun.NewMailgun(domain, apiKey)
+	m := mg.NewMessage(from, subject, body, email)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
+	defer cancel()
+
+	_, _, err := mg.Send(ctx, m)
+
+	if err != nil {
+		return errors.Wrap(
+			err,
+			fmt.Sprintf("RelaySubscribedMessage: problem sending passwrod reset confirmation email (%s)", email),
 		)
 	}
 

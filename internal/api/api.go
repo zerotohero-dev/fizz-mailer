@@ -79,4 +79,15 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 		),
 		"GET", "/v1/relay/confirm",
 	)
+
+	// Sends subscription confirmation.
+	app.Route(
+		router, http.NewServer(
+			endpoint.MakeRelaySubscribedMessageEndpoint(svc),
+			app.ContentTypeValidatingMiddleware(
+				transport.DecodeRelaySubscribedMessageRequest),
+			app.EncodeResponse,
+		),
+		"GET", "/v1/relay/subscribed",
+	)
 }
