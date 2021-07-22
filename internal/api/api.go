@@ -22,10 +22,10 @@ import (
 	"github.com/zerotohero-dev/fizz-mailer/internal/transport"
 )
 
-const prefix = "/mailer"
-
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	svc := service.New(e, context.Background())
+
+	prefix := e.Mailer.PathPrefix
 
 	// Sends email verification email.
 	app.RoutePrefixedPath(
