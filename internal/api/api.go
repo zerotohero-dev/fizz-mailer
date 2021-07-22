@@ -22,72 +22,74 @@ import (
 	"github.com/zerotohero-dev/fizz-mailer/internal/transport"
 )
 
+const prefix = "/mailer"
+
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	svc := service.New(e, context.Background())
 
 	// Sends email verification email.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelayEmailVerificationMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelayEmailVerificationMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/verification",
+		router, "POST", prefix, "/v1/relay/verification",
 	)
 
 	// Sends email verified email.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelayEmailVerifiedMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelayEmailVerifiedMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/verified",
+		router, "POST", prefix, "/v1/relay/verified",
 	)
 
 	// Sends welcome email.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelayWelcomeMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelayWelcomeMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/welcome",
+		router, "POST", prefix, "/v1/relay/welcome",
 	)
 
 	// Sends password reset email.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelayPasswordResetMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelayPasswordResetMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/reset",
+		router, "POST", prefix, "/v1/relay/reset",
 	)
 
 	// Sends password reset confirmation email.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelayPasswordResetConfirmationMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelayPasswordResetConfirmationMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/confirm",
+		router, "POST", prefix, "/v1/relay/confirm",
 	)
 
 	// Sends subscription confirmation.
-	app.Route(
-		router, http.NewServer(
+	app.RoutePrefixedPath(
+		http.NewServer(
 			endpoint.MakeRelaySubscribedMessageEndpoint(svc),
 			app.ContentTypeValidatingMiddleware(
 				transport.DecodeRelaySubscribedMessageRequest),
 			app.EncodeResponse,
 		),
-		"POST", "/v1/relay/subscribed",
+		router, "POST", prefix, "/v1/relay/subscribed",
 	)
 }
