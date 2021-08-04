@@ -88,9 +88,16 @@ func RelayEmailVerifiedMessage(e env.FizzEnv, email, token, name string) error {
 }
 
 func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
-	body := template.WelcomeMessageBody(template.WelcomeMessageParams{
-		Name: name,
-	})
+	var body string
+	if e.Idm.LaunchState == "waitlist" {
+		body = template.WaitlistMessageBody(template.WaitlistMessageParams{
+			Name:name,
+		})
+	} else {
+		body = template.WelcomeMessageBody(template.WelcomeMessageParams{
+			Name: name,
+		})
+	}
 
 	domain := e.Mailer.MailgunDomain
 	apiKey := e.Mailer.MailgunApiKey
