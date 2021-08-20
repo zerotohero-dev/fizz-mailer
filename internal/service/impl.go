@@ -25,10 +25,6 @@ func (s service) RelayEmailVerificationMessage(email, name, emailVerificationTok
 	return postman.RelayEmailVerificationMessage(s.env, email, name, emailVerificationToken)
 }
 
-func (s service) RelayEmailVerifiedMessage(email, token, name string) error {
-	return postman.RelayEmailVerifiedMessage(s.env, email, token, name)
-}
-
 func (s service) RelayWelcomeMessage(email, name string) error {
 	return postman.RelayWelcomeMessage(s.env, email, name)
 }

@@ -43,44 +43,10 @@ func RelayEmailVerificationMessage(e env.FizzEnv, email, name, emailVerification
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("RelayEmailVerificationMessage: problem sending activation email (%s)", email),
-		)
-	}
-
-	return nil
-}
-
-func RelayEmailVerifiedMessage(e env.FizzEnv, email, token, name string) error {
-	body := template.EmailVerifiedMessageBody(template.EmailVerifiedMessageParams{
-		Name:                     name,
-		EmailVerificationBaseUrl: e.Mailer.EmailVerificationBaseUrl,
-		Token:                    token,
-	})
-
-	domain := e.Mailer.MailgunDomain
-	apiKey := e.Mailer.MailgunApiKey
-
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, you have verified your email 🐢", name)
-
-	if e.Deployment.Type == env.Development {
-		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
-		log.Info("mailer: %s", body)
-		return nil
-	}
-
-	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
-	defer cancel()
-
-	_, _, err := mg.Send(ctx, m)
-
-	if err != nil {
-		return errors.Wrap(
-			err,
-			fmt.Sprintf("RelayEmailVerifiedMessage: problem account verification confirmation email (%s)", email),
+			fmt.Sprintf(
+				"RelayEmailVerificationMessage: problem sending activation email (%s)",
+				log.RedactEmail(email),
+			),
 		)
 	}
 
@@ -115,7 +81,10 @@ func RelayWelcomeMessage(e env.FizzEnv, email, name string) error {
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("RelayWelcomeMessage: problem sending welcome email (%s)", email),
+			fmt.Sprintf(
+				"RelayWelcomeMessage: problem sending welcome email (%s)",
+				log.RedactEmail(email),
+			),
 		)
 	}
 
@@ -153,7 +122,10 @@ func RelayPasswordResetMessage(e env.FizzEnv, email, name, passwordResetToken st
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("RelayPasswordResetMessage: problem sending password reset email (%s)", email),
+			fmt.Sprintf(
+				"RelayPasswordResetMessage: problem sending password reset email (%s)",
+				log.RedactEmail(email),
+			),
 		)
 	}
 
@@ -188,7 +160,10 @@ func RelayPasswordResetConfirmationMessage(e env.FizzEnv, email, name string) er
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("RelayPasswordResetConfirmationMessage: problem sending passwrod reset confirmation email (%s)", email),
+			fmt.Sprintf(
+				"RelayPasswordResetConfirmationMessage: problem sending passwrod reset confirmation email (%s)",
+				log.RedactEmail(email),
+			),
 		)
 	}
 
@@ -223,7 +198,10 @@ func RelaySubscribedMessage(e env.FizzEnv, email, name string) error {
 	if err != nil {
 		return errors.Wrap(
 			err,
-			fmt.Sprintf("RelaySubscribedMessage: problem sending passwrod reset confirmation email (%s)", email),
+			fmt.Sprintf(
+				"RelaySubscribedMessage: problem sending passwrod reset confirmation email (%s)",
+				log.RedactEmail(email),
+			),
 		)
 	}
 

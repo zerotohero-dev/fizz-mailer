@@ -22,6 +22,20 @@ import (
 	"github.com/zerotohero-dev/fizz-mailer/internal/transport"
 )
 
+var urls = struct {
+	EmailVerification    string
+	Welcome              string
+	PasswordReset        string
+	PasswordResetConfirm string
+	SubscriptionConfirm  string
+}{
+	EmailVerification:    "/v1/relay/verification",
+	Welcome:              "/v1/relay/welcome",
+	PasswordReset:        "/v1/relay/reset",
+	PasswordResetConfirm: "/v1/relay/confirm",
+	SubscriptionConfirm:  "/v1/relay/subscribed",
+}
+
 func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 	svc := service.New(e, context.Background())
 
@@ -35,18 +49,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelayEmailVerificationMessageRequest),
 			app.EncodeResponse,
 		),
-		router, "POST", prefix, "/v1/relay/verification",
-	)
-
-	// Sends email verified email.
-	app.RoutePrefixedPath(
-		http.NewServer(
-			endpoint.MakeRelayEmailVerifiedMessageEndpoint(svc),
-			app.ContentTypeValidatingMiddleware(
-				transport.DecodeRelayEmailVerifiedMessageRequest),
-			app.EncodeResponse,
-		),
-		router, "POST", prefix, "/v1/relay/verified",
+		router, "POST", prefix, urls.EmailVerification,
 	)
 
 	// Sends welcome email.
@@ -57,7 +60,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelayWelcomeMessageRequest),
 			app.EncodeResponse,
 		),
-		router, "POST", prefix, "/v1/relay/welcome",
+		router, "POST", prefix, urls.Welcome,
 	)
 
 	// Sends password reset email.
@@ -68,7 +71,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelayPasswordResetMessageRequest),
 			app.EncodeResponse,
 		),
-		router, "POST", prefix, "/v1/relay/reset",
+		router, "POST", prefix, urls.PasswordReset,
 	)
 
 	// Sends password reset confirmation email.
@@ -79,7 +82,7 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelayPasswordResetConfirmationMessageRequest),
 			app.EncodeResponse,
 		),
-		router, "POST", prefix, "/v1/relay/confirm",
+		router, "POST", prefix, urls.PasswordResetConfirm,
 	)
 
 	// Sends subscription confirmation.
@@ -90,6 +93,6 @@ func InitializeEndpoints(e env.FizzEnv, router *mux.Router) {
 				transport.DecodeRelaySubscribedMessageRequest),
 			app.EncodeResponse,
 		),
-		router, "POST", prefix, "/v1/relay/subscribed",
+		router, "POST", prefix, urls.SubscriptionConfirm,
 	)
 }

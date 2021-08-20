@@ -18,18 +18,17 @@ import (
 	"github.com/zerotohero-dev/fizz-mailer/internal/api"
 )
 
-const appName = "fizz-mailer"
-
 func main() {
 	e := *env.New()
 
 	appEnv := e.Mailer
+	svcName := appEnv.ServiceName
 
-	app.Configure(e, appName, appEnv.HoneybadgerApiKey, appEnv.Sanitize)
+	app.Configure(e, svcName, appEnv.HoneybadgerApiKey, appEnv.Sanitize)
 
 	r := mux.NewRouter()
 	api.InitializeEndpoints(e, r)
 	app.RouteHealthEndpoints(e.Mailer.PathPrefix, r)
 
-	app.ListenAndServe(e, appName, appEnv.Port, r)
+	app.ListenAndServe(e, svcName, appEnv.Port, r)
 }
