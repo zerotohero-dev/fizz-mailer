@@ -4,13 +4,11 @@ go 1.16
 
 require (
 	github.com/StackExchange/wmi v1.2.1 // indirect
-	github.com/go-chi/chi v4.0.0+incompatible // indirect
 	github.com/go-kit/kit v0.11.0
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/mailgun/mailgun-go/v4 v4.5.2
-	github.com/mailru/easyjson v0.7.0 // indirect
 	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/rs/cors v1.8.0 // indirect
