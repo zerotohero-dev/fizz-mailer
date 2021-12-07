@@ -13,7 +13,6 @@ package service
 
 import (
 	"context"
-	"github.com/zerotohero-dev/fizz-env/pkg/env"
 )
 
 type Service interface {
@@ -24,14 +23,22 @@ type Service interface {
 	RelaySubscribedMessage(email, name string) error
 }
 
+type Args struct {
+	IsDevelopment bool
+	MailgunDomain string
+	MailgunApiKey string
+	EmailVerificationBaseUrl string
+	PasswordResetBaseUrl string
+}
+
 type service struct {
-	env env.FizzEnv
+	args Args
 	ctx context.Context
 }
 
-func New(e env.FizzEnv, ctx context.Context) Service {
+func New(args Args, ctx context.Context) Service {
 	return &service{
-		env: e,
+		args: args,
 		ctx: ctx,
 	}
 }
