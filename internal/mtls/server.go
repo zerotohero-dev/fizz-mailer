@@ -19,12 +19,42 @@ import (
 	"github.com/spiffe/go-spiffe/v2/workloadapi"
 	"github.com/zerotohero-dev/fizz-mailer/internal/service"
 	"github.com/zerotohero-dev/fizz-logging/pkg/log"
+	"github.com/zerotohero-dev/fizz-mtls/pkg/mtls"
 	"net"
 )
 
-func runSpireMtlSServer(svcArgs service.Args, spireArgs SpireArgs) {
+func runSpireMtlSServer(svcArgs service.Args, spireArgs mtls.SpireArgs) {
+
+//ServerAddress:  e.Crypto.MtlsServerAddress,
+//	SocketPath:     e.Spire.SocketPath,
+//		AppTrustDomain: e.Spire.AppTrustDomainFizz,
+//		AppPrefix:      e.Spire.AppPrefixFizz,
+//		AppNameDefault: e.Spire.AppNameFizzDefault,
+//		AppName:        e.Crypto.ServiceName,
+//		AppNameIdm:     e.Idm.ServiceName,
+//		AppNameMailer:  e.Mailer.ServiceName,
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+	svc := service.New(svcArgs, ctx)
+
+	handler := func(conn net.Conn) {
+		handleConnection(conn, svc)
+	}
+
+	poop := func(err error) {
+		handleError(err)
+	}
+
+	mtls.ListenAndServe(
+		svcArgs.MtlsServerAddress,
+		svcArgs.MtlsSocketPath,
+		svcArgs.MtlsAppName,
+		mtls.AllowList(svcArgs.IsDevelopment),
+		handler, poop,
+	)
+
+
 
 	trustDomain := spireArgs.AppTrustDomain
 	appPrefix := spireArgs.AppPrefix
@@ -67,13 +97,13 @@ func runSpireMtlSServer(svcArgs service.Args, spireArgs SpireArgs) {
 		}
 	}(listener)
 
-	svc := service.New(svcArgs, ctx)
+
 
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
 			go handleError(err)
 		}
-		go handleConnection(conn, svc)
+		go
 	}
 }

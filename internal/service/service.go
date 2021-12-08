@@ -29,6 +29,9 @@ type Args struct {
 	MailgunApiKey string
 	EmailVerificationBaseUrl string
 	PasswordResetBaseUrl string
+	MtlsServerAddress string
+	MtlsSocketPath string
+	MtlsAppName string
 }
 
 type service struct {

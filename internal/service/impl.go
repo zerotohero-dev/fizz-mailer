@@ -13,15 +13,7 @@ package service
 
 import "github.com/zerotohero-dev/fizz-mailer/internal/service/postman"
 
-// TODO: move me to README!
-//
-// For development environments, this service logs the email body to
-// the standard output instead of relaying the email. This is by design,
-// as we want to have a limited “allow list” for the backend servers only.
-// Plus it speeds up development time, since sometimes it takes a while for
-// those emails to arrive. You can configure this service to run in production
-// mode and also add your developer machine’s IP to the “allow list”, if you want
-// to have a more production-like behavior.
+
 
 func (s service) RelayEmailVerificationMessage(email, name, emailVerificationToken string) error {
 	return postman.RelayEmailVerificationMessage(s.args, email, name, emailVerificationToken)

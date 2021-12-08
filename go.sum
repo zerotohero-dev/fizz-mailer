@@ -485,11 +485,17 @@ github.com/zerotohero-dev/fizz-env v0.3.6 h1:/rShX463MAXpmR6bG8hFpXKfZ19NIHWwU14
 github.com/zerotohero-dev/fizz-env v0.3.6/go.mod h1:FPXQfRJ46qdmUXBaeanHg1dgx/wK2vJEmH/dTRr10tk=
 github.com/zerotohero-dev/fizz-env v0.3.7 h1:y5eepj63wnvzicd0aCpVymjC+C3hfCDowpdUw4fKWrw=
 github.com/zerotohero-dev/fizz-env v0.3.7/go.mod h1:FPXQfRJ46qdmUXBaeanHg1dgx/wK2vJEmH/dTRr10tk=
+github.com/zerotohero-dev/fizz-env v0.4.0/go.mod h1:FPXQfRJ46qdmUXBaeanHg1dgx/wK2vJEmH/dTRr10tk=
 github.com/zerotohero-dev/fizz-logging v0.1.4/go.mod h1:s6XsyiMGmW50npkyU2x+ZiUjoLnzI6zGnAlkcjLh9SA=
 github.com/zerotohero-dev/fizz-logging v0.1.6 h1:6z/xBqeyVSGnNL0kv8wN5QsxcyqauPopfX6JEoMo3io=
 github.com/zerotohero-dev/fizz-logging v0.1.6/go.mod h1:SGQjBmDNT/ZwjbsuNEdH8j88P0tI0+aHfbQKDx7f0ho=
 github.com/zerotohero-dev/fizz-logging v0.2.0 h1:jGobYqWaVXcEOYt0si6co7WGvpeuCd7PAEn/qd4kuUQ=
 github.com/zerotohero-dev/fizz-logging v0.2.0/go.mod h1:SGQjBmDNT/ZwjbsuNEdH8j88P0tI0+aHfbQKDx7f0ho=
+github.com/zerotohero-dev/fizz-logging v0.3.0/go.mod h1:VARCrre3rCL2M6NeTbYYYJ1f3Bb2k6WmSkBflr+r/dc=
+github.com/zerotohero-dev/fizz-mtls v0.0.1 h1:hLCv7pN+Bmv6btHSBe4VQ6ZgGTaQ12hGxiaMbX8OFqY=
+github.com/zerotohero-dev/fizz-mtls v0.0.1/go.mod h1:66ndhKu+WUlgrMPjHQwFizSFZYbJO/qXbia8GJNBptc=
+github.com/zerotohero-dev/fizz-mtls v0.0.2 h1:4q9w/AmNET5peg+8CNmcWCXaSkb/VT70cnHCvfXt0Pk=
+github.com/zerotohero-dev/fizz-mtls v0.0.2/go.mod h1:66ndhKu+WUlgrMPjHQwFizSFZYbJO/qXbia8GJNBptc=
 github.com/zerotohero-dev/fizz-validation v0.1.0 h1:6yhdIy+00Z/AaaBTFVKcQHsiaiCz5qevwepEfj/blrk=
 github.com/zerotohero-dev/fizz-validation v0.1.0/go.mod h1:Kx3zCoZa/EpTw8f32aAfKVw/d+h3VjRIgk1W02xMtXg=
 github.com/zerotohero-dev/fizz-validation v0.1.2 h1:I+SZ9FFCeZSQIeqFDgcbv7Tpm2Zq6bNaAlR1aLFdr5M=
