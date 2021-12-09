@@ -9,4 +9,4 @@
 #   /;`,,/7),)) )) )\,,
 #  (& )`   (,((,((;( ))\,
 
-go build cmd/conf.go cmd/serve.go cmd/main.go
+go build -o fizz-mailer cmd/conf.go cmd/serve.go cmd/main.go
