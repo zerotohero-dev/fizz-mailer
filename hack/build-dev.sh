@@ -9,4 +9,4 @@
 #   /;`,,/7),)) )) )\,,
 #  (& )`   (,((,((;( ))\,
 
-go build cmd/main.go
+go build cmd/conf.go cmd/serve.go cmd/main.go
