@@ -13,24 +13,44 @@ package service
 
 import "github.com/zerotohero-dev/fizz-mailer/internal/service/postman"
 
-
+func args(s service, email, name string) postman.Args {
+	return postman.Args{
+		MailgunDomain: s.args.MailgunDomain,
+		MailgunApiKey: s.args.MailgunApiKey,
+		IsDevelopment: s.args.IsDevelopment,
+		Email:         email,
+		Name:          name,
+	}
+}
 
 func (s service) RelayEmailVerificationMessage(email, name, emailVerificationToken string) error {
-	return postman.RelayEmailVerificationMessage(s.args, email, name, emailVerificationToken)
+	return postman.RelayEmailVerificationMessage(
+		args(s, email, name),
+		s.args.EmailVerificationBaseUrl,
+		emailVerificationToken,
+	)
 }
 
 func (s service) RelayWelcomeMessage(email, name string) error {
-	return postman.RelayWelcomeMessage(s.args, email, name)
+	return postman.RelayWelcomeMessage(args(s, email, name))
 }
 
 func (s service) RelayPasswordResetMessage(email, name, passwordResetToken string) error {
-	return postman.RelayPasswordResetMessage(s.args, email, name, passwordResetToken)
+	return postman.RelayPasswordResetMessage(
+		args(s, email, name),
+		s.args.PasswordResetBaseUrl,
+		passwordResetToken,
+	)
 }
 
 func (s service) RelayPasswordResetConfirmationMessage(email, name string) error {
-	return postman.RelayPasswordResetConfirmationMessage(s.args, email, name)
+	return postman.RelayPasswordResetConfirmationMessage(
+		args(s, email, name),
+	)
 }
 
 func (s service) RelaySubscribedMessage(email, name string) error {
-	return postman.RelaySubscribedMessage(s.args, email, name)
+	return postman.RelaySubscribedMessage(
+		args(s, email, name),
+	)
 }

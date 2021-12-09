@@ -19,18 +19,26 @@ import (
 )
 
 func multiplex(
-	apiEndpoint string, apiMethod method.Method, conn net.Conn, svc service.Service,
+	apiEndpoint string, apiMethod method.Method, body string,
+	conn net.Conn, svc service.Service,
 ) {
 	switch {
-	case apiEndpoint == endpoint.Mailer.Verification && apiMethod == method.Post:
-		_ = handleRelayEmailVerification(conn, svc)
-	case apiEndpoint == endpoint.Crypto.Jwt && apiMethod == method.Post:
-		_ = handleCryptoJwt(conn, svc)
-	case apiEndpoint == endpoint.Crypto.SecureHash && apiMethod == method.Post:
-		_ = handleSecureHash(conn, svc)
-	case apiEndpoint == endpoint.Crypto.SecureToken && apiMethod == method.Get:
-		_ = handleSecureToken(conn, svc)
+	case apiEndpoint == endpoint.Mailer.Verification &&
+		apiMethod == method.Post:
+		handleRelayEmailVerification(conn, svc, body)
+	case apiEndpoint == endpoint.Mailer.Welcome &&
+		apiMethod == method.Post:
+		handleRelayWelcome(conn, svc, body)
+	case apiEndpoint == endpoint.Mailer.PasswordReset &&
+		apiMethod == method.Post:
+		handleRelayPasswordReset(conn, svc, body)
+	case apiEndpoint == endpoint.Mailer.PasswordResetConfirm &&
+		apiMethod == method.Get:
+		handleRelayPasswordResetConfirm(conn, svc, body)
+	case apiEndpoint == endpoint.Mailer.SubscriptionConfirm &&
+		apiMethod == method.Get:
+		handleRelaySubscriptionConfirm(conn, svc, body)
 	default:
-		_ = handleUnknown(conn, svc)
+		handleUnknown(conn, svc, body)
 	}
 }

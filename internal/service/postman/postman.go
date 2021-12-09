@@ -6,38 +6,46 @@ import (
 	"github.com/mailgun/mailgun-go/v4"
 	"github.com/pkg/errors"
 	"github.com/zerotohero-dev/fizz-logging/pkg/log"
-	"github.com/zerotohero-dev/fizz-mailer/internal/service"
+	// "github.com/zerotohero-dev/fizz-mailer/internal/service"
 	"github.com/zerotohero-dev/fizz-mailer/internal/service/postman/template"
 	"time"
 )
 
+// TODO: to env
 const from = "Volkan Özçelik <volkan@hermes.fizzbuzz.pro>"
 
+type Args struct {
+	MailgunDomain string
+	MailgunApiKey string
+	IsDevelopment bool
+	Email         string
+	Name          string
+}
+
 func RelayEmailVerificationMessage(
-	args service.Args,
-	email, name, emailVerificationToken string,
+	args Args, emailVerificationBaseUrl, emailVerificationToken string,
 ) error {
 	body := template.EmailVerificationMessageBody(template.EmailVerificationMessageParams{
-		Email:                    email,
-		Name:                     name,
-		EmailVerificationBaseUrl: args.EmailVerificationBaseUrl,
+		Email:                    args.Email,
+		Name:                     args.Name,
+		EmailVerificationBaseUrl: emailVerificationBaseUrl,
 		Token:                    emailVerificationToken,
 	})
 
 	domain := args.MailgunDomain
 	apiKey := args.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🐢", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, please verify your email 🐢", args.Name)
 
 	if args.IsDevelopment {
 		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", args.Email)
 		log.Info("mailer: %s", body)
 		return nil
 	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
+	m := mg.NewMessage(from, subject, body, args.Email)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
@@ -48,7 +56,7 @@ func RelayEmailVerificationMessage(
 			err,
 			fmt.Sprintf(
 				"RelayEmailVerificationMessage: problem sending activation email (%s)",
-				log.RedactEmail(email),
+				log.RedactEmail(args.Email),
 			),
 		)
 	}
@@ -56,37 +64,36 @@ func RelayEmailVerificationMessage(
 	return nil
 }
 
-func RelayWelcomeMessage(args service.Args, email, name string) error {
+func RelayWelcomeMessage(args Args) error {
 	body := template.WelcomeMessageBody(template.WelcomeMessageParams{
-		Name: name,
+		Name: args.Name,
 	})
 
 	domain := args.MailgunDomain
 	apiKey := args.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🐢", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] %s, Welcome to %s 🐢", args.Name, "the Jungle")
 
 	if args.IsDevelopment {
 		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", args.Email)
 		log.Info("mailer: %s", body)
 		return nil
 	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
+	m := mg.NewMessage(from, subject, body, args.Email)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
 
 	_, _, err := mg.Send(ctx, m)
-
 	if err != nil {
 		return errors.Wrap(
 			err,
 			fmt.Sprintf(
 				"RelayWelcomeMessage: problem sending welcome email (%s)",
-				log.RedactEmail(email),
+				log.RedactEmail(args.Email),
 			),
 		)
 	}
@@ -94,28 +101,28 @@ func RelayWelcomeMessage(args service.Args, email, name string) error {
 	return nil
 }
 
-func RelayPasswordResetMessage(args service.Args, email, name, passwordResetToken string) error {
+func RelayPasswordResetMessage(args Args, passwordResetBaseUrl, passwordResetToken string) error {
 	body := template.PasswordResetMessageBody(template.PasswordResetMessageParams{
-		Name:                 name,
-		Email:                email,
+		Name:                 args.Name,
+		Email:                args.Email,
 		Token:                passwordResetToken,
-		PasswordResetBaseUrl: args.PasswordResetBaseUrl,
+		PasswordResetBaseUrl: passwordResetBaseUrl,
 	})
 
 	domain := args.MailgunDomain
 	apiKey := args.MailgunApiKey
 
-	subject := fmt.Sprintf("[ZeroToHero] Hi %s, here are your password reset instructions.", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, here are your password reset instructions.", args.Name)
 
 	if args.IsDevelopment {
 		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", args.Email)
 		log.Info("mailer: %s", body)
 		return nil
 	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
+	m := mg.NewMessage(from, subject, body, args.Email)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
@@ -127,7 +134,7 @@ func RelayPasswordResetMessage(args service.Args, email, name, passwordResetToke
 			err,
 			fmt.Sprintf(
 				"RelayPasswordResetMessage: problem sending password reset email (%s)",
-				log.RedactEmail(email),
+				log.RedactEmail(args.Email),
 			),
 		)
 	}
@@ -135,25 +142,25 @@ func RelayPasswordResetMessage(args service.Args, email, name, passwordResetToke
 	return nil
 }
 
-func RelayPasswordResetConfirmationMessage(args service.Args, email, name string) error {
+func RelayPasswordResetConfirmationMessage(args Args) error {
 	body := template.PasswordResetConfirmationMessageBody(template.PasswordResetConfirmationMessageParams{
-		Name: name,
+		Name: args.Name,
 	})
 
 	domain := args.MailgunDomain
 	apiKey := args.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, you've successfully reset your password.", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, you've successfully reset your password.", args.Name)
 
 	if args.IsDevelopment {
 		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", args.Email)
 		log.Info("mailer: %s", body)
 		return nil
 	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
+	m := mg.NewMessage(from, subject, body, args.Email)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
@@ -165,7 +172,7 @@ func RelayPasswordResetConfirmationMessage(args service.Args, email, name string
 			err,
 			fmt.Sprintf(
 				"RelayPasswordResetConfirmationMessage: problem sending passwrod reset confirmation email (%s)",
-				log.RedactEmail(email),
+				log.RedactEmail(args.Email),
 			),
 		)
 	}
@@ -173,25 +180,25 @@ func RelayPasswordResetConfirmationMessage(args service.Args, email, name string
 	return nil
 }
 
-func RelaySubscribedMessage(args service.Args, email, name string) error {
+func RelaySubscribedMessage(args Args) error {
 	body := template.SubscribedMessageBody(template.SubscribedMessageParams{
-		Name: name,
+		Name: args.Name,
 	})
 
 	domain := args.MailgunDomain
 	apiKey := args.MailgunApiKey
 
-	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, welcome to the jungle.", name)
+	subject := fmt.Sprintf("[FizzBuzz Pro] Hi %s, welcome to the jungle.", args.Name)
 
 	if args.IsDevelopment {
 		log.Info("mailer: %s", subject)
-		log.Info("mailer: %s", email)
+		log.Info("mailer: %s", args.Email)
 		log.Info("mailer: %s", body)
 		return nil
 	}
 
 	mg := mailgun.NewMailgun(domain, apiKey)
-	m := mg.NewMessage(from, subject, body, email)
+	m := mg.NewMessage(from, subject, body, args.Email)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
@@ -203,7 +210,7 @@ func RelaySubscribedMessage(args service.Args, email, name string) error {
 			err,
 			fmt.Sprintf(
 				"RelaySubscribedMessage: problem sending passwrod reset confirmation email (%s)",
-				log.RedactEmail(email),
+				log.RedactEmail(args.Email),
 			),
 		)
 	}
